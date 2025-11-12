@@ -1,0 +1,131 @@
+$primary: #f9f3f0;
+$secondary: #84360e;
+$accent: #FF6584;
+$font-main: 'Inter', sans-serif;
+$text: #333;
+
+.main-nav {
+  background: $primary;
+  padding: 0 8px 0 35px;
+  border-bottom: 1px solid #e0e0e0;
+  display: block;
+  position: relative;
+  z-index: 100;
+
+  .menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 18px 10px;
+
+    span {
+      display: block;
+      width: 25px;
+      height: 3px;
+      background: $text;
+      margin-bottom: 5px;
+      border-radius: 2px;
+      transition: 0.3s;
+    }
+  }
+
+  .nav-menu {
+    display: flex;
+    justify-content: space-around;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-family: $font-main;
+
+    li {
+      position: relative;
+      padding: 18px 0;
+
+      a {
+        text-decoration: none;
+        color: $text;
+        font-weight: 700;
+        font-size: 14px;
+        transition: color 0.3s, border-bottom 0.3s;
+      }
+
+      a.active,
+      a:hover {
+        color: $secondary;
+        border-bottom: 2px solid $secondary;
+        padding-bottom: 4px;
+      }
+
+      &.dropdown {
+        cursor: pointer;
+
+        .dropdown-content {
+          display: block;
+          visibility: hidden;
+          opacity: 0;
+          transform: translateY(10px);
+          transition: all 0.25s ease-in-out;
+          position: absolute;
+          top: 100%;
+          left: 0;
+          background: white;
+          list-style: none;
+          margin: 0;
+          padding: 8px 0;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+          border-radius: 6px;
+          min-width: 220px;
+          z-index: 999;
+
+          li {
+            padding: 10px 20px;
+
+            a {
+              display: block;
+              color: $text;
+              font-weight: 500;
+              transition: color 0.2s, background 0.2s;
+
+              &:hover {
+                background: rgba(132, 54, 14, 0.06);
+                color: $secondary;
+              }
+            }
+          }
+
+          &.show {
+            visibility: visible;
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    .menu-toggle {
+      display: block;
+    }
+
+    .nav-menu {
+      display: none;
+      flex-direction: column;
+      background: $primary;
+      width: 100%;
+    }
+
+    &.active .nav-menu {
+      display: flex !important;
+    }
+
+    .dropdown .dropdown-content {
+      position: static;
+      box-shadow: none;
+      transform: none;
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+}

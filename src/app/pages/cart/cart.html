@@ -1,0 +1,90 @@
+<div class="cart-container">
+  <div class="cart-header">
+    <h1>Shopping Cart</h1>
+    <p *ngIf="cartItems.length > 0">{{ cartItems.length }} item(s) in your cart</p>
+  </div>
+
+  <div class="empty-cart" *ngIf="cartItems.length === 0">
+    <div class="empty-cart-icon">🛒</div>
+    <h2>Your cart is empty</h2>
+    <p>Add some products to get started!</p>
+    <a routerLink="/" class="btn-shop">Continue Shopping</a>
+  </div>
+
+  <div class="cart-content" *ngIf="cartItems.length > 0">
+    <div class="cart-items">
+      <div class="cart-item" *ngFor="let item of cartItems">
+        <div class="item-image">
+          <img [src]="item.product.image" [alt]="item.product.title" />
+        </div>
+
+        <div class="item-details">
+          <h3>{{ item.product.title }}</h3>
+          <p class="item-category">{{ item.product.category }}</p>
+          <p class="item-description">{{ item.product.description.substring(0, 100) }}...</p>
+        </div>
+
+        <div class="item-price">
+          <span class="price-label">Price:</span>
+          <span class="price-value">${{ item.product.price.toFixed(2) }}</span>
+        </div>
+
+        <div class="item-quantity">
+          <button class="qty-btn" (click)="decreaseQuantity(item)">-</button>
+          <span class="qty-value">{{ item.quantity }}</span>
+          <button class="qty-btn" (click)="increaseQuantity(item)">+</button>
+        </div>
+
+        <div class="item-total">
+          <span class="total-label">Total:</span>
+          <span class="total-value">${{ getItemTotal(item).toFixed(2) }}</span>
+        </div>
+
+        <button class="remove-btn" (click)="removeItem(item.product.id)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="cart-summary">
+      <div class="summary-card">
+        <h2>Order Summary</h2>
+
+        <div class="summary-row">
+          <span>Subtotal:</span>
+          <span>${{ total.toFixed(2) }}</span>
+        </div>
+
+        <div class="summary-row">
+          <span>Shipping:</span>
+          <span class="free">Free</span>
+        </div>
+
+        <div class="summary-row tax">
+          <span>Tax (10%):</span>
+          <span>${{ (total * 0.1).toFixed(2) }}</span>
+        </div>
+
+        <div class="summary-divider"></div>
+
+        <div class="summary-row total-row">
+          <span>Total:</span>
+          <span>${{ (total * 1.1).toFixed(2) }}</span>
+        </div>
+
+        <button class="btn-checkout">Proceed to Checkout</button>
+
+        <button class="btn-continue" routerLink="/">Continue Shopping</button>
+
+        <button class="btn-clear" (click)="clearCart()">Clear Cart</button>
+      </div>
+    </div>
+  </div>
+</div>

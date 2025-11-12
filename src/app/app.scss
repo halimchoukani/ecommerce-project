@@ -1,0 +1,26 @@
+.page-wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #f9f3f0;
+    width: 100%;
+
+}
+  
+.main {
+    flex: 1 0 auto;
+    margin-top: 215px;
+    padding-bottom: 32px;
+    width: 100%;
+}
+  
+.footer {
+    flex-shrink: 0;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .main {
+        margin-top: 160px;
+    }
+}

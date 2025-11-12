@@ -1,0 +1,16 @@
+<div class="container-home">
+  <app-slider></app-slider>
+
+  <div class="cont-cards" *ngIf="!loading && !error">
+    <app-product-card *ngFor="let product of products" [product]="product"> </app-product-card>
+  </div>
+
+  <div class="loading-container" *ngIf="loading">
+    <div class="loader"></div>
+    <p>Loading products...</p>
+  </div>
+
+  <div class="error-message" *ngIf="error">
+    <p>{{ error }}</p>
+  </div>
+</div>

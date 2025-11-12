@@ -1,0 +1,78 @@
+<nav class="main-nav" [class.active]="menuActive">
+  <button class="menu-toggle" (click)="menuActive = !menuActive" aria-label="Toggle menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <ul class="nav-menu">
+    <!-- DROPDOWN 1 : PRODUITS -->
+    <li
+      class="dropdown"
+      (mouseenter)="openDropdown('produits')"
+      (mouseleave)="closeDropdown('produits')"
+      (click)="toggleDropdown('produits')"
+    >
+      <a routerLink="/catalogue" class="dropbtn">PRODUITS</a>
+      <ul class="dropdown-content" [class.show]="dropdownVisible['produits']">
+        <li><a routerLink="/catalogue">PARFUMS</a></li>
+        <li><a routerLink="/catalogue">SOINS</a></li>
+        <li><a routerLink="/catalogue">MAQUILLAGE</a></li>
+        <li><a routerLink="/catalogue">CHEVEUX</a></li>
+        <li><a routerLink="/catalogue">CHEVEUX - SOIN PROFESSIONNEL</a></li>
+        <li><a routerLink="/catalogue">HOMME</a></li>
+        <li><a routerLink="/catalogue">ENFANT</a></li>
+        <li><a routerLink="/catalogue">COFFRETS</a></li>
+        <li><a routerLink="/catalogue">IDÉES CADEAUX</a></li>
+      </ul>
+    </li>
+
+    <li><a routerLink="/catalogue">NOUVEAUTÉS</a></li>
+    <li><a routerLink="/catalogue" class="active">PROMOTIONS</a></li>
+    <li><a routerLink="/catalogue">EXCLUSIVITÉS</a></li>
+
+    <!-- DROPDOWN 2 : MARQUES -->
+    <li
+      class="dropdown"
+      (mouseenter)="openDropdown('marques')"
+      (mouseleave)="closeDropdown('marques')"
+      (click)="toggleDropdown('marques')"
+    >
+      <a routerLink="/catalogue" class="dropbtn">MARQUES</a>
+      <ul class="dropdown-content" [class.show]="dropdownVisible['marques']">
+        <li><a routerLink="/catalogue">ADOPT</a></li>
+        <li><a routerLink="/catalogue">AIRVAL</a></li>
+        <li><a routerLink="/catalogue">APRIL PARIS</a></li>
+        <li><a routerLink="/catalogue">DIOR</a></li>
+        <li><a routerLink="/catalogue">DOLCE & GABBANA</a></li>
+        <li><a routerLink="/catalogue">VELVET COLLECTION</a></li>
+        <li><a routerLink="/catalogue">ELIE SAAB</a></li>
+        <li><a routerLink="/catalogue">GIORGIO ARMANI</a></li>
+        <li><a routerLink="/catalogue">KOTO PARFUMS</a></li>
+        <li><a routerLink="/catalogue">VIKTOR & ROLF</a></li>
+        <li><a routerLink="/catalogue">VALENTINO</a></li>
+        <li><a routerLink="/catalogue">PRADA</a></li>
+        <li><a routerLink="/catalogue">MAYBELLINE</a></li>
+        <li><a routerLink="/catalogue">BOSS</a></li>
+        <li><a routerLink="/catalogue">HERMÈS</a></li>
+        <li><a routerLink="/catalogue">WOMEN'SECRET</a></li>
+        <li><a routerLink="/catalogue">YVES SAINT LAURENT</a></li>
+      </ul>
+    </li>
+
+    <!-- DROPDOWN 3 : IDÉES CADEAUX -->
+    <li
+      class="dropdown"
+      (mouseenter)="openDropdown('cadeaux')"
+      (mouseleave)="closeDropdown('cadeaux')"
+      (click)="toggleDropdown('cadeaux')"
+    >
+      <a routerLink="/catalogue" class="dropbtn">IDÉES CADEAUX</a>
+      <ul class="dropdown-content" [class.show]="dropdownVisible['cadeaux']">
+        <li><a routerLink="/catalogue">PARFUMS</a></li>
+        <li><a routerLink="/catalogue">SOINS</a></li>
+        <li><a routerLink="/catalogue">MAQUILLAGE</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>

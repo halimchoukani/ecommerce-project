@@ -1,0 +1,21 @@
+<div class="product-card" *ngIf="product">
+  <div class="image-container">
+    <img [src]="product.image" [alt]="product.title" />
+  </div>
+
+  <div class="title">{{ truncateText(product.title, 25) }}</div>
+
+  <div class="description">{{ truncateText(product.description, 50) }}</div>
+
+  <div class="price-rating">
+    <div class="price">${{ product.price.toFixed(2) }}</div>
+    <div class="rating" *ngIf="product.rating">
+      <span class="stars">⭐</span>
+      <span class="rate">{{ product.rating.rate }}</span>
+    </div>
+  </div>
+
+  <button class="btn-add" (click)="addToCart()">Add to Cart</button>
+
+  <a [routerLink]="['/products', product.id]" class="btn-details">View Details</a>
+</div>

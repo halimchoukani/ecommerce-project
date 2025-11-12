@@ -1,0 +1,58 @@
+<div class="product-detail-container">
+  <div class="loading-container" *ngIf="loading">
+    <div class="loader"></div>
+    <p>Loading product...</p>
+  </div>
+
+  <div class="error-message" *ngIf="error">
+    <p>{{ error }}</p>
+    <button class="btn-back" (click)="goBack()">Go Back</button>
+  </div>
+
+  <div class="product-detail" *ngIf="product && !loading">
+    <button class="btn-back-top" (click)="goBack()">← Back to Products</button>
+
+    <div class="product-content">
+      <div class="product-image">
+        <img [src]="product.image" [alt]="product.title" />
+      </div>
+
+      <div class="product-info">
+        <div class="category-badge">{{ product.category }}</div>
+
+        <h1 class="product-title">{{ product.title }}</h1>
+
+        <div class="product-rating" *ngIf="product.rating">
+          <div class="stars">
+            <span *ngFor="let star of [1, 2, 3, 4, 5]" [class.filled]="star <= product.rating.rate">
+              ⭐
+            </span>
+          </div>
+          <span class="rating-text">{{ product.rating.rate }} / 5</span>
+          <span class="rating-count">({{ product.rating.count }} reviews)</span>
+        </div>
+
+        <div class="product-price">${{ product.price.toFixed(2) }}</div>
+
+        <div class="product-description">
+          <h3>Description</h3>
+          <p>{{ product.description }}</p>
+        </div>
+
+        <div class="quantity-selector">
+          <label>Quantity:</label>
+          <div class="quantity-controls">
+            <button (click)="decreaseQuantity()" [disabled]="quantity <= 1">-</button>
+            <span class="quantity-value">{{ quantity }}</span>
+            <button (click)="increaseQuantity()">+</button>
+          </div>
+        </div>
+
+        <div class="action-buttons">
+          <button class="btn-add-cart" (click)="addToCart()">Add to Cart</button>
+          <a routerLink="/cart" class="btn-view-cart"> View Cart </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
