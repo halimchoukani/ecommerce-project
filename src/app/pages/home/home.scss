@@ -5,12 +5,17 @@
 }
 
 .cont-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 40px 32px;
-  max-width: 1400px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
+  gap:10px;
+
+  max-width: 90%;
   margin: 0 auto;
   padding: 20px;
+  align-items: start;
+  grid-auto-rows: 1fr; /* rows match height so cards stretch evenly */
 }
 
 @media (max-width: 768px) {

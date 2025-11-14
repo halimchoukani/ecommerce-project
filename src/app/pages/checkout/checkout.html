@@ -1,0 +1,509 @@
+<div class="checkout-container" *ngIf="!orderComplete">
+  <div class="checkout-header">
+    <h1>Passer la commande</h1>
+    <div class="steps-indicator">
+      <div
+        class="step"
+        [class.active]="currentStep === 'shipping'"
+        [class.completed]="currentStep === 'payment' || currentStep === 'review'"
+      >
+        <div class="step-number">1</div>
+        <div class="step-label">Livraison</div>
+      </div>
+      <div class="step-line"></div>
+      <div
+        class="step"
+        [class.active]="currentStep === 'payment'"
+        [class.completed]="currentStep === 'review'"
+      >
+        <div class="step-number">2</div>
+        <div class="step-label">Paiement</div>
+      </div>
+      <div class="step-line"></div>
+      <div class="step" [class.active]="currentStep === 'review'">
+        <div class="step-number">3</div>
+        <div class="step-label">Vérification</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="checkout-content">
+    <!-- Left Column: Forms -->
+    <div class="checkout-forms">
+      <!-- Step 1: Shipping Information -->
+      <div class="form-section" *ngIf="currentStep === 'shipping'">
+        <h2>Informations de livraison</h2>
+        <form [formGroup]="shippingForm">
+          <div class="form-group">
+            <label for="fullName">Nom complet *</label>
+            <input
+              type="text"
+              id="fullName"
+              formControlName="fullName"
+              [class.error]="
+                shippingControls['fullName'].invalid && shippingControls['fullName'].touched
+              "
+            />
+            <div
+              class="field-error"
+              *ngIf="shippingControls['fullName'].invalid && shippingControls['fullName'].touched"
+            >
+              <span *ngIf="shippingControls['fullName'].errors?.['required']"
+                >Le nom complet est requis</span
+              >
+              <span *ngIf="shippingControls['fullName'].errors?.['minlength']"
+                >Le nom doit contenir au moins 3 caractères</span
+              >
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="addressLine1">Adresse ligne 1 *</label>
+            <input
+              type="text"
+              id="addressLine1"
+              formControlName="addressLine1"
+              placeholder="Rue, boîte postale"
+              [class.error]="
+                shippingControls['addressLine1'].invalid && shippingControls['addressLine1'].touched
+              "
+            />
+            <div
+              class="field-error"
+              *ngIf="
+                shippingControls['addressLine1'].invalid && shippingControls['addressLine1'].touched
+              "
+            >
+              <span *ngIf="shippingControls['addressLine1'].errors?.['required']"
+                >L'adresse est requise</span
+              >
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="addressLine2">Adresse ligne 2</label>
+            <input
+              type="text"
+              id="addressLine2"
+              formControlName="addressLine2"
+              placeholder="Appartement, suite, unité (optionnel)"
+            />
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="city">Ville *</label>
+              <input
+                type="text"
+                id="city"
+                formControlName="city"
+                [class.error]="shippingControls['city'].invalid && shippingControls['city'].touched"
+              />
+              <div
+                class="field-error"
+                *ngIf="shippingControls['city'].invalid && shippingControls['city'].touched"
+              >
+                La ville est requise
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="state">État/Région *</label>
+              <input
+                type="text"
+                id="state"
+                formControlName="state"
+                [class.error]="
+                  shippingControls['state'].invalid && shippingControls['state'].touched
+                "
+              />
+              <div
+                class="field-error"
+                *ngIf="shippingControls['state'].invalid && shippingControls['state'].touched"
+              >
+                L'état/région est requis
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="zipCode">Code postal *</label>
+              <input
+                type="text"
+                id="zipCode"
+                formControlName="zipCode"
+                placeholder="12345"
+                [class.error]="
+                  shippingControls['zipCode'].invalid && shippingControls['zipCode'].touched
+                "
+              />
+              <div
+                class="field-error"
+                *ngIf="shippingControls['zipCode'].invalid && shippingControls['zipCode'].touched"
+              >
+                <span *ngIf="shippingControls['zipCode'].errors?.['required']"
+                  >Le code postal est requis</span
+                >
+                <span *ngIf="shippingControls['zipCode'].errors?.['pattern']"
+                  >Format de code postal invalide</span
+                >
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="country">Pays *</label>
+              <input
+                type="text"
+                id="country"
+                formControlName="country"
+                [class.error]="
+                  shippingControls['country'].invalid && shippingControls['country'].touched
+                "
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Numéro de téléphone *</label>
+            <input
+              type="tel"
+              id="phone"
+              formControlName="phone"
+              placeholder="+33 1 23 45 67 89"
+              [class.error]="shippingControls['phone'].invalid && shippingControls['phone'].touched"
+            />
+            <div
+              class="field-error"
+              *ngIf="shippingControls['phone'].invalid && shippingControls['phone'].touched"
+            >
+              <span *ngIf="shippingControls['phone'].errors?.['required']"
+                >Le numéro de téléphone est requis</span
+              >
+              <span *ngIf="shippingControls['phone'].errors?.['pattern']"
+                >Numéro de téléphone invalide</span
+              >
+            </div>
+          </div>
+
+          <div class="shipping-options">
+            <h3>Mode de livraison</h3>
+            <div class="radio-group">
+              <label class="radio-option">
+                <input
+                  type="radio"
+                  name="shippingType"
+                  value="standard"
+                  [checked]="shippingType === 'standard'"
+                  (change)="onShippingTypeChange('standard')"
+                />
+                <div class="radio-content">
+                  <div class="radio-label">Livraison standard</div>
+                  <div class="radio-description">5-7 jours ouvrables</div>
+                </div>
+                <div class="radio-price">
+                  DT {{ shipping === 0 ? 'GRATUIT' : formatPrice(5.99) }}
+                </div>
+              </label>
+
+              <label class="radio-option">
+                <input
+                  type="radio"
+                  name="shippingType"
+                  value="express"
+                  [checked]="shippingType === 'express'"
+                  (change)="onShippingTypeChange('express')"
+                />
+                <div class="radio-content">
+                  <div class="radio-label">Livraison express</div>
+                  <div class="radio-description">2-3 jours ouvrables</div>
+                </div>
+                <div class="radio-price">DT {{ formatPrice(15.99) }}</div>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn-continue" (click)="goToStep('payment')">
+              Continuer vers le paiement
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Step 2: Payment Information -->
+      <div class="form-section" *ngIf="currentStep === 'payment'">
+        <h2>Informations de paiement</h2>
+
+        <div class="payment-methods">
+          <label class="payment-method">
+            <input
+              type="radio"
+              name="paymentMethod"
+              value="credit_card"
+              [checked]="paymentMethod === 'credit_card'"
+              (change)="onPaymentMethodChange('credit_card')"
+            />
+            <span>Carte de crédit</span>
+          </label>
+          <label class="payment-method">
+            <input
+              type="radio"
+              name="paymentMethod"
+              value="debit_card"
+              [checked]="paymentMethod === 'debit_card'"
+              (change)="onPaymentMethodChange('debit_card')"
+            />
+            <span>Carte de débit</span>
+          </label>
+          <label class="payment-method">
+            <input
+              type="radio"
+              name="paymentMethod"
+              value="paypal"
+              [checked]="paymentMethod === 'paypal'"
+              (change)="onPaymentMethodChange('paypal')"
+            />
+            <span>PayPal</span>
+          </label>
+        </div>
+
+        <form [formGroup]="paymentForm" *ngIf="paymentMethod !== 'paypal'">
+          <div class="form-group">
+            <label for="cardholderName">Nom du titulaire *</label>
+            <input
+              type="text"
+              id="cardholderName"
+              formControlName="cardholderName"
+              placeholder="Jean Dupont"
+              [class.error]="
+                paymentControls['cardholderName'].invalid &&
+                paymentControls['cardholderName'].touched
+              "
+            />
+            <div
+              class="field-error"
+              *ngIf="
+                paymentControls['cardholderName'].invalid &&
+                paymentControls['cardholderName'].touched
+              "
+            >
+              Le nom du titulaire est requis
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="cardNumber">Numéro de carte *</label>
+            <input
+              type="text"
+              id="cardNumber"
+              formControlName="cardNumber"
+              placeholder="1234567890123456"
+              maxlength="16"
+              [class.error]="
+                paymentControls['cardNumber'].invalid && paymentControls['cardNumber'].touched
+              "
+            />
+            <div
+              class="field-error"
+              *ngIf="paymentControls['cardNumber'].invalid && paymentControls['cardNumber'].touched"
+            >
+              <span *ngIf="paymentControls['cardNumber'].errors?.['required']"
+                >Le numéro de carte est requis</span
+              >
+              <span *ngIf="paymentControls['cardNumber'].errors?.['pattern']"
+                >Le numéro de carte doit contenir 16 chiffres</span
+              >
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="expiryMonth">Mois d'expiration *</label>
+              <input
+                type="number"
+                id="expiryMonth"
+                formControlName="expiryMonth"
+                placeholder="MM"
+                min="1"
+                max="12"
+                [class.error]="
+                  paymentControls['expiryMonth'].invalid && paymentControls['expiryMonth'].touched
+                "
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="expiryYear">Année d'expiration *</label>
+              <input
+                type="number"
+                id="expiryYear"
+                formControlName="expiryYear"
+                placeholder="AAAA"
+                min="2025"
+                [class.error]="
+                  paymentControls['expiryYear'].invalid && paymentControls['expiryYear'].touched
+                "
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="cvv">CVV *</label>
+              <input
+                type="text"
+                id="cvv"
+                formControlName="cvv"
+                placeholder="123"
+                maxlength="4"
+                [class.error]="paymentControls['cvv'].invalid && paymentControls['cvv'].touched"
+              />
+            </div>
+          </div>
+        </form>
+
+        <div class="paypal-info" *ngIf="paymentMethod === 'paypal'">
+          <p>Vous serez redirigé vers PayPal pour finaliser votre paiement.</p>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn-back" (click)="goToStep('shipping')">
+            Retour à la livraison
+          </button>
+          <button type="button" class="btn-continue" (click)="goToStep('review')">
+            Vérifier la commande
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 3: Review Order -->
+      <div class="form-section" *ngIf="currentStep === 'review'">
+        <h2>Vérifiez votre commande</h2>
+
+        <div class="review-section">
+          <h3>Adresse de livraison</h3>
+          <div class="review-content">
+            <p>{{ shippingForm.value.fullName }}</p>
+            <p>{{ shippingForm.value.addressLine1 }}</p>
+            <p *ngIf="shippingForm.value.addressLine2">{{ shippingForm.value.addressLine2 }}</p>
+            <p>
+              {{ shippingForm.value.city }}, {{ shippingForm.value.state }}
+              {{ shippingForm.value.zipCode }}
+            </p>
+            <p>{{ shippingForm.value.country }}</p>
+            <p>{{ shippingForm.value.phone }}</p>
+          </div>
+          <button class="btn-edit" (click)="goToStep('shipping')">Modifier</button>
+        </div>
+
+        <div class="review-section">
+          <h3>Mode de paiement</h3>
+          <div class="review-content">
+            <p *ngIf="paymentMethod === 'credit_card'">Carte de crédit</p>
+            <p *ngIf="paymentMethod === 'debit_card'">Carte de débit</p>
+            <p *ngIf="paymentMethod === 'paypal'">PayPal</p>
+            <p *ngIf="paymentMethod !== 'paypal'">
+              Se terminant par {{ paymentForm.value.cardNumber?.slice(-4) || '****' }}
+            </p>
+          </div>
+          <button class="btn-edit" (click)="goToStep('payment')">Modifier</button>
+        </div>
+
+        <div class="review-section">
+          <h3>Mode de livraison</h3>
+          <div class="review-content">
+            <p *ngIf="shippingType === 'standard'">Livraison standard (5-7 jours ouvrables)</p>
+            <p *ngIf="shippingType === 'express'">Livraison express (2-3 jours ouvrables)</p>
+          </div>
+        </div>
+
+        <div class="error-message" *ngIf="error">
+          {{ error }}
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn-back" (click)="goToStep('payment')">
+            Retour au paiement
+          </button>
+          <button
+            type="button"
+            class="btn-place-order"
+            (click)="submitOrder()"
+            [disabled]="processing"
+          >
+            <span *ngIf="!processing">Passer la commande - ${{ formatPrice(total) }}</span>
+            <span *ngIf="processing">Traitement en cours...</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Order Summary -->
+    <div class="order-summary">
+      <h3>Résumé de la commande</h3>
+
+      <div class="summary-items">
+        <div class="summary-item" *ngFor="let item of cartItems">
+          <div class="item-image">
+            <img [src]="item.product.image" [alt]="item.product.title" />
+          </div>
+          <div class="item-details">
+            <p class="item-title">{{ item.product.title }}</p>
+            <p class="item-quantity">Qté : {{ item.quantity }}</p>
+          </div>
+          <div class="item-price">DT {{ formatPrice(item.product.price * item.quantity) }}</div>
+        </div>
+      </div>
+
+      <div class="summary-totals">
+        <div class="summary-row">
+          <span>Sous-total :</span>
+          <span>DT {{ formatPrice(subtotal) }}</span>
+        </div>
+        <div class="summary-row">
+          <span>Livraison :</span>
+          <span *ngIf="shipping === 0">GRATUIT</span>
+          <span *ngIf="shipping > 0">DT {{ formatPrice(shipping) }}</span>
+        </div>
+        <div class="summary-row">
+          <span>TVA (10%) :</span>
+          <span>DT {{ formatPrice(tax) }}</span>
+        </div>
+        <div class="summary-row total">
+          <span>Total :</span>
+          <span>DT {{ formatPrice(total) }}</span>
+        </div>
+      </div>
+
+      <div class="free-shipping-notice" *ngIf="subtotal < 100 && shipping > 0">
+        <p>Ajoutez ${{ formatPrice(100 - subtotal) }} de plus pour la livraison GRATUITE !</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Order Confirmation -->
+<div class="order-confirmation" *ngIf="orderComplete && completedOrder">
+  <div class="confirmation-icon">✓</div>
+  <h1>Commande confirmée !</h1>
+  <p class="order-number">Commande #{{ completedOrder.id }}</p>
+  <p class="confirmation-message">
+    Merci pour votre commande. Nous avons envoyé un email de confirmation à votre adresse
+    enregistrée.
+  </p>
+
+  <div class="order-details">
+    <h3>Résumé de la commande</h3>
+    <p><strong>Total :</strong> ${{ formatPrice(completedOrder.total) }}</p>
+    <p><strong>Statut :</strong> {{ completedOrder.status }}</p>
+    <p>
+      <strong>Livraison estimée :</strong>
+      <span *ngIf="shippingType === 'standard'">5-7 jours ouvrables</span>
+      <span *ngIf="shippingType === 'express'">2-3 jours ouvrables</span>
+    </p>
+  </div>
+
+  <div class="confirmation-actions">
+    <button class="btn-primary" (click)="continueShopping()">Continuer vos achats</button>
+    <button class="btn-secondary" (click)="viewOrders()">Voir les commandes</button>
+  </div>
+</div>

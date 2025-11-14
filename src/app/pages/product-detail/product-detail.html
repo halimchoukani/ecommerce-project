@@ -1,16 +1,16 @@
 <div class="product-detail-container">
   <div class="loading-container" *ngIf="loading">
     <div class="loader"></div>
-    <p>Loading product...</p>
+    <p>Chargement du produit...</p>
   </div>
 
   <div class="error-message" *ngIf="error">
     <p>{{ error }}</p>
-    <button class="btn-back" (click)="goBack()">Go Back</button>
+    <button class="btn-back" (click)="goBack()">Retour</button>
   </div>
 
   <div class="product-detail" *ngIf="product && !loading">
-    <button class="btn-back-top" (click)="goBack()">← Back to Products</button>
+    <button class="btn-back-top" (click)="goBack()">← Retour aux produits</button>
 
     <div class="product-content">
       <div class="product-image">
@@ -29,10 +29,10 @@
             </span>
           </div>
           <span class="rating-text">{{ product.rating.rate }} / 5</span>
-          <span class="rating-count">({{ product.rating.count }} reviews)</span>
+          <span class="rating-count">({{ product.rating.count }} avis)</span>
         </div>
 
-        <div class="product-price">${{ product.price.toFixed(2) }}</div>
+        <div class="product-price">DT {{ product.price.toFixed(2) }}</div>
 
         <div class="product-description">
           <h3>Description</h3>
@@ -40,7 +40,7 @@
         </div>
 
         <div class="quantity-selector">
-          <label>Quantity:</label>
+          <label>Quantité :</label>
           <div class="quantity-controls">
             <button (click)="decreaseQuantity()" [disabled]="quantity <= 1">-</button>
             <span class="quantity-value">{{ quantity }}</span>
@@ -49,8 +49,31 @@
         </div>
 
         <div class="action-buttons">
-          <button class="btn-add-cart" (click)="addToCart()">Add to Cart</button>
-          <a routerLink="/cart" class="btn-view-cart"> View Cart </a>
+          <button class="btn-add-cart" (click)="addToCart()">Ajouter au panier</button>
+          <button
+            class="btn-favorite"
+            [class.active]="isFavorite"
+            (click)="toggleFavorite()"
+            [title]="isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris'"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              [attr.fill]="isFavorite ? 'currentColor' : 'none'"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+              ></path>
+            </svg>
+            {{ isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris' }}
+          </button>
+          <a routerLink="/cart" class="btn-view-cart"> Voir le panier </a>
         </div>
       </div>
     </div>

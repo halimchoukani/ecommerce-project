@@ -1,0 +1,41 @@
+<div class="favorites-container">
+  <div class="favorites-header">
+    <h1>Mes Favoris</h1>
+    <p class="favorites-count">
+      {{ favorites.length }} {{ favorites.length === 1 ? 'article' : 'articles' }}
+    </p>
+  </div>
+
+  <div *ngIf="favorites.length === 0" class="empty-favorites">
+    <div class="empty-icon">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="80"
+        height="80"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path
+          d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+        ></path>
+      </svg>
+    </div>
+    <h2>Aucun favori pour le moment</h2>
+    <p>Commencez à ajouter des produits à votre liste en cliquant sur l'icône cœur</p>
+    <button class="btn-primary" (click)="continueShopping()">Parcourir les produits</button>
+  </div>
+
+  <div *ngIf="favorites.length > 0" class="favorites-content">
+    <div class="favorites-actions">
+      <button class="btn-clear" (click)="clearAllFavorites()">Tout effacer</button>
+    </div>
+
+    <div class="favorites-grid">
+      <app-product-card *ngFor="let product of favorites" [product]="product"> </app-product-card>
+    </div>
+  </div>
+</div>

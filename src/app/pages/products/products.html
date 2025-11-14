@@ -1,0 +1,239 @@
+<div class="products-container">
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="loader"></div>
+    <p>Chargement des produits...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !loading" class="error-message">
+    <p>{{ error }}</p>
+    <button class="btn-retry" (click)="loadProducts()">Réessayer</button>
+  </div>
+
+  <!-- Main Content -->
+  <div *ngIf="!loading && !error" class="products-content">
+    <!-- Header Section -->
+    <div class="products-header">
+      <div class="header-info">
+        <h1>Tous les produits</h1>
+        <p class="product-count">
+          Affichage de {{ displayedProducts.length }} sur {{ filteredCount }} produits
+        </p>
+      </div>
+
+      <!-- Search Bar -->
+      <div class="search-bar">
+        <svg
+          class="search-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.35-4.35"></path>
+        </svg>
+        <input
+          type="text"
+          [(ngModel)]="searchQuery"
+          (ngModelChange)="onSearchChange()"
+          placeholder="Rechercher des produits par nom, description ou catégorie..."
+          class="search-input"
+        />
+        <button
+          *ngIf="searchQuery"
+          class="clear-search"
+          (click)="searchQuery = ''; onSearchChange()"
+        >
+          ×
+        </button>
+      </div>
+    </div>
+
+    <!-- Filters and Sort Section -->
+    <div class="filters-section">
+      <div class="filters-header">
+        <button class="btn-toggle-filters" (click)="toggleFilters()">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+          </svg>
+          {{ showFilters ? 'Masquer les filtres' : 'Afficher les filtres' }}
+          <span *ngIf="hasActiveFilters" class="active-filters-badge">●</span>
+        </button>
+
+        <div class="sort-controls">
+          <label for="sort-select">Trier par :</label>
+          <select
+            id="sort-select"
+            [(ngModel)]="sortBy"
+            (ngModelChange)="onSortChange()"
+            class="sort-select"
+          >
+            <option value="default">Par défaut</option>
+            <option value="price-asc">Prix : Croissant</option>
+            <option value="price-desc">Prix : Décroissant</option>
+            <option value="name-asc">Nom : A à Z</option>
+            <option value="name-desc">Nom : Z à A</option>
+            <option value="rating-desc">Note : Décroissante</option>
+            <option value="rating-asc">Note : Croissante</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Filter Panel -->
+      <div class="filter-panel" [class.show]="showFilters">
+        <div class="filter-group">
+          <h3>Catégorie</h3>
+          <div class="category-filters">
+            <button
+              class="category-btn"
+              [class.active]="selectedCategory === 'all'"
+              (click)="onCategoryChange('all')"
+            >
+              Toutes les catégories
+            </button>
+            <button
+              *ngFor="let category of categories"
+              class="category-btn"
+              [class.active]="selectedCategory === category"
+              (click)="onCategoryChange(category)"
+            >
+              {{ category }}
+            </button>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <h3>Plage de prix</h3>
+          <div class="price-range">
+            <div class="price-inputs">
+              <div class="price-input-group">
+                <label>Min :</label>
+                <input
+                  type="number"
+                  [(ngModel)]="minPrice"
+                  (ngModelChange)="onPriceRangeChange()"
+                  min="0"
+                  max="1000"
+                  class="price-input"
+                />
+              </div>
+              <span class="price-separator">-</span>
+              <div class="price-input-group">
+                <label>Max :</label>
+                <input
+                  type="number"
+                  [(ngModel)]="maxPrice"
+                  (ngModelChange)="onPriceRangeChange()"
+                  min="0"
+                  max="1000"
+                  class="price-input"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <h3>Note minimale</h3>
+          <div class="rating-filters">
+            <button
+              class="rating-btn"
+              [class.active]="minRating === 0"
+              (click)="minRating = 0; onRatingChange()"
+            >
+              Toutes les notes
+            </button>
+            <button
+              *ngFor="let rating of [4, 3, 2, 1]"
+              class="rating-btn"
+              [class.active]="minRating === rating"
+              (click)="minRating = rating; onRatingChange()"
+            >
+              {{ rating }}+ ⭐
+            </button>
+          </div>
+        </div>
+
+        <div class="filter-actions">
+          <button class="btn-clear-filters" (click)="clearFilters()" [disabled]="!hasActiveFilters">
+            Effacer tous les filtres
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Products Grid -->
+    <div class="products-grid" *ngIf="displayedProducts.length > 0">
+      <app-product-card
+        *ngFor="let product of displayedProducts"
+        [product]="product"
+      ></app-product-card>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="displayedProducts.length === 0" class="empty-state">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="80"
+        height="80"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <circle cx="11" cy="11" r="8"></circle>
+        <path d="m21 21-4.35-4.35"></path>
+      </svg>
+      <h2>Aucun produit trouvé</h2>
+      <p>Essayez d'ajuster vos filtres ou votre recherche</p>
+      <button class="btn-clear-filters" (click)="clearFilters()">Effacer les filtres</button>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination" *ngIf="totalPages > 1 && displayedProducts.length > 0">
+      <button
+        class="pagination-btn"
+        (click)="goToPage(currentPage - 1)"
+        [disabled]="currentPage === 1"
+      >
+        ← Précédent
+      </button>
+
+      <button
+        *ngFor="let page of getPaginationRange()"
+        class="pagination-btn page-number"
+        [class.active]="currentPage === page"
+        (click)="goToPage(page)"
+      >
+        {{ page }}
+      </button>
+
+      <button
+        class="pagination-btn"
+        (click)="goToPage(currentPage + 1)"
+        [disabled]="currentPage === totalPages"
+      >
+        Suivant →
+      </button>
+    </div>
+  </div>
+</div>

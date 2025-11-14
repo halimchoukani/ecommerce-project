@@ -13,10 +13,8 @@
         font-size: 48px;
         font-family: 'inter', sans-serif;
         font-weight: 700;
-        background: linear-gradient(to right, #f9555c, rgb(142 88 73));
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
+        color: #f9555c;
+        padding: 10px;
         margin: 0 0 12px 0;
     }
     
@@ -72,16 +70,25 @@
     }
 }
 
+/* Use flexbox for overall layout */
 .cart-content {
-    display: grid;
-    grid-template-columns: 1fr 400px;
-    gap: 32px;
-}
-
-.cart-items {
     display: flex;
-    flex-direction: column;
-    gap: 20px;
+    gap: 32px;
+    align-items: flex-start;
+
+    .cart-items {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .cart-summary {
+        flex: 0 0 360px;
+        position: sticky;
+        top: 20px;
+        height: fit-content;
+    }
 }
 
 .cart-item {
@@ -89,10 +96,10 @@
     border-radius: 12px;
     padding: 24px;
     box-shadow: 0px 0px 16px 10px #00000014;
-    display: grid;
-    grid-template-columns: 120px 1fr auto auto auto auto;
+    display: flex;
     gap: 20px;
     align-items: center;
+    flex-wrap: wrap;
     transition: transform 0.3s ease;
     
     &:hover {
@@ -100,7 +107,9 @@
         box-shadow: 0px 0px 20px 12px #00000018;
     }
     
+    /* Image column */
     .item-image {
+        flex: 0 0 120px;
         width: 120px;
         height: 120px;
         display: flex;
@@ -117,13 +126,18 @@
         }
     }
     
+    /* Flexible details column */
     .item-details {
+        flex: 1 1 240px;
+        min-width: 0; /* allow text truncation when needed */
+        
         h3 {
             font-family: 'inter', sans-serif;
             font-size: 18px;
             font-weight: 600;
             color: #333;
             margin: 0 0 8px 0;
+            word-break: break-word;
         }
         
         .item-category {
@@ -144,8 +158,10 @@
         }
     }
     
+    /* Compact columns for price / quantity / total */
     .item-price,
     .item-total {
+        flex: 0 0 110px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -168,12 +184,14 @@
     }
     
     .item-quantity {
+        flex: 0 0 150px;
         display: flex;
         align-items: center;
         gap: 12px;
         border: 2px solid #e0e0e0;
         border-radius: 8px;
         padding: 8px 12px;
+        justify-content: center;
         
         .qty-btn {
             width: 32px;
@@ -202,6 +220,7 @@
         }
     }
     
+    /* Remove button floats to the end and stays visible on wrap */
     .remove-btn {
         background: transparent;
         border: none;
@@ -210,6 +229,8 @@
         padding: 8px;
         border-radius: 4px;
         transition: 0.3s;
+        align-self: flex-start;
+        margin-left: auto;
         
         &:hover {
             color: #f9555c;
@@ -222,11 +243,8 @@
     }
 }
 
+/* Summary card inside cart-summary */
 .cart-summary {
-    position: sticky;
-    top: 20px;
-    height: fit-content;
-    
     .summary-card {
         background: white;
         border-radius: 12px;
@@ -328,22 +346,26 @@
     }
 }
 
+/* Responsive adjustments */
 @media (max-width: 1200px) {
     .cart-content {
-        grid-template-columns: 1fr;
+        flex-direction: column;
     }
     
     .cart-summary {
         position: static;
+        flex: 0 0 auto;
+        width: 100%;
+        margin-top: 24px;
     }
 }
 
 @media (max-width: 968px) {
     .cart-item {
-        grid-template-columns: 100px 1fr;
         gap: 16px;
         
         .item-image {
+            flex: 0 0 100px;
             width: 100px;
             height: 100px;
         }
@@ -351,14 +373,23 @@
         .item-price,
         .item-quantity,
         .item-total {
-            grid-column: 1 / -1;
-            justify-self: start;
+            flex: 1 1 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 6px;
+            padding-bottom: 6px;
+        }
+        
+        .item-details {
+            order: 1;
+            width: 100%;
         }
         
         .remove-btn {
-            grid-column: 2;
-            grid-row: 1;
-            justify-self: end;
+            order: 3;
+            align-self: center;
+            margin-left: 0;
         }
     }
 }
@@ -381,6 +412,18 @@
             .item-description {
                 font-size: 13px;
             }
+        }
+
+        .item-image {
+            flex: 0 0 80px;
+            width: 80px;
+            height: 80px;
+        }
+
+        .item-price,
+        .item-quantity,
+        .item-total {
+            font-size: 14px;
         }
     }
 }

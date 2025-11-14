@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { ProductService } from '../../services/product.service';
 import { CartService } from '../../services/cart.service';
+import { FavoritesService } from '../../services/favorites.service';
 import { Product } from '../../models/product.model';
 
 @Component({
@@ -11,24 +13,43 @@ import { Product } from '../../models/product.model';
   templateUrl: './product-detail.html',
   styleUrl: './product-detail.scss',
 })
-export class ProductDetail implements OnInit {
+export class ProductDetail implements OnInit, OnDestroy {
   product: Product | null = null;
   loading: boolean = true;
   error: string = '';
   quantity: number = 1;
+  isFavorite: boolean = false;
+  private favoritesSubscription?: Subscription;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private productService: ProductService,
-    private cartService: CartService
+    private cartService: CartService,
+    private favoritesService: FavoritesService
   ) {}
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     if (id) {
       this.loadProduct(id);
+      this.checkFavoriteStatus(id);
     }
+
+    // Subscribe to favorites changes
+    this.favoritesSubscription = this.favoritesService.favorites$.subscribe(() => {
+      if (this.product) {
+        this.isFavorite = this.favoritesService.isFavorite(this.product.id);
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.favoritesSubscription?.unsubscribe();
+  }
+
+  checkFavoriteStatus(productId: number): void {
+    this.isFavorite = this.favoritesService.isFavorite(productId);
   }
 
   loadProduct(id: number): void {
@@ -37,6 +58,7 @@ export class ProductDetail implements OnInit {
       next: (data) => {
         this.product = data;
         this.loading = false;
+        this.isFavorite = this.favoritesService.isFavorite(data.id);
       },
       error: (err) => {
         console.error('Error fetching product:', err);
@@ -50,6 +72,12 @@ export class ProductDetail implements OnInit {
     if (this.product) {
       this.cartService.addProduct(this.product, this.quantity);
       alert(`${this.quantity} x ${this.product.title} added to cart!`);
+    }
+  }
+
+  toggleFavorite(): void {
+    if (this.product) {
+      this.isFavorite = this.favoritesService.toggleFavorite(this.product);
     }
   }
 

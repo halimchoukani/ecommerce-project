@@ -1,78 +1,140 @@
-.container-all{
-    display: flex;
-    justify-content: center;
+.container-all {
+  display: flex;
+  justify-content: center;
 }
 
-.container-login{
-    width: 450px;
-    height: 400px;
-    border-radius: 16px;
-    padding-bottom: 24px;
-    box-shadow: 0px 0px 16px 10px #00000014;
-    background: #fff7f7;
+.container-login {
+  width: 450px;
+  height: 400px;
+  border-radius: 16px;
+  padding-bottom: 24px;
+  box-shadow: 0px 0px 16px 10px #00000014;
+  background: #fff7f7;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+
+  .title {
+    font-size: 48px;
+    font-family: 'inter', sans-serif;
+    background: linear-gradient(to right, #e87c81, #b97461e0, rgb(124 131 232));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 2px;
+    font-weight: 500;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition: 0.3s;
+    display: inline-block;
+    line-height: 1.2;
+    padding: 5px 0;
+    white-space: nowrap;
+  }
+
+  form {
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 32px;        
+    gap: 24px;
+  }
 
-    .title{
-        font-size: 52px;
-        background: linear-gradient(to right, #f9555c, rgb(142 88 73));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;        
-        font-family: 'inter', sans-serif;
-        font-weight: 700;
+  input[type='text'],
+  input[type='email'],
+  input[type='password'] {
+    width: 80%;
+    padding: 12px 16px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    outline: none;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+    &.error {
+      border-color: #d32f2f;
     }
+  }
 
-    input[type="text"],
-    input[type="password"] {
-        width: 80%;
-        padding: 12px 16px;
-        font-size: 16px;
-        border: 2px solid #ccc;
-        border-radius: 8px;
-        transition: border-color 0.3s, box-shadow 0.3s;
-        outline: none;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  input[type='text']:focus,
+  input[type='email']:focus,
+  input[type='password']:focus {
+    border-color: #f9555c;
+    box-shadow: 0 0 8px #f9555d28;
+
+    &.error {
+      border-color: #d32f2f;
+      box-shadow: 0 0 8px #d32f2f28;
     }
+  }
 
-    input[type="text"]:focus,
-    input[type="password"]:focus {
-        border-color: #f9555c;
-        box-shadow: 0 0 8px #f9555d28;
+  .field-error {
+    color: #d32f2f;
+    font-size: 12px;
+    font-family: 'inter', sans-serif;
+    width: 80%;
+    text-align: left;
+    margin-top: -16px;
+    margin-bottom: 8px;
+  }
+
+  .error-message {
+    color: #d32f2f;
+    font-size: 14px;
+    font-family: 'inter', sans-serif;
+    text-align: center;
+    padding: 8px;
+    background-color: #ffebee;
+    border-radius: 4px;
+    width: 80%;
+  }
+
+  .btn-login {
+    position: relative;
+    width: 200px;
+    height: 45px;
+    border-radius: 10px;
+    background: linear-gradient(#fff7f7, #fff7f7) padding-box,
+      linear-gradient(to right, #e87c81, #b97461e0, rgb(124 131 232)) border-box;
+    border: 2px solid transparent;
+    color: #f9555c;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  .btn-login:hover:not(:disabled) {
+    width: 202px;
+    height: 47px;
+    font-size: 17px;
+    background: linear-gradient(#fff7f7, #fff7f7) padding-box,
+      linear-gradient(to right, #e87c81d0, #b97461ab, rgba(124, 131, 232, 0.795)) border-box;
+    color: #f9555dad;
+  }
+
+  .btn-login:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .cont-link {
+    font-family: 'inter', sans-serif;
+    font-size: 16px;
+    color: #333333c7;
+    background: transparent;
+
+    a {
+      color: #f9555c;
+      text-decoration: none;
+      font-weight: 600;
+
+      &:hover {
+        text-decoration: underline;
+      }
     }
-
-    .btn-login{
-        position: relative;
-        width: 200px;
-        height: 45px;
-        border-radius: 10px;
-        background: 
-            linear-gradient(#fff7f7, #fff7f7) padding-box,
-            linear-gradient(to right, #e87c81, #b97461e0, rgb(124 131 232)) border-box;
-        border: 2px solid transparent;
-        color: #f9555c;
-        font-size: 16px;
-        cursor: pointer;
-        transition: 0.3s;
-    }
-
-    .btn-login:hover{
-        width: 202px;
-        height: 47px;
-        font-size: 17px;
-        background: 
-            linear-gradient(#fff7f7, #fff7f7) padding-box,
-            linear-gradient(to right, #e87c81d0, #b97461ab, rgba(124, 131, 232, 0.795)) border-box;
-        color: #f9555dad;
-    }
-
-    .cont-link{
-        font-family: 'inter', sans-serif; 
-        font-size: 16px; 
-        color: #333333c7;
-        background: transparent;
-    }
-
+  }
 }

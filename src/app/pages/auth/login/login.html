@@ -1,16 +1,48 @@
 <div class="container-all">
+  <div class="container-login">
+    <div class="title">CONNEXION</div>
 
-    <div class="container-login">
+    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+      <input
+        type="email"
+        placeholder="Email"
+        formControlName="email"
+        [class.error]="email?.invalid && email?.touched"
+        required
+      />
 
-        <div class="title">LOGIN</div>
+      <div class="field-error" *ngIf="email?.invalid && email?.touched">
+        <span *ngIf="email?.errors?.['required']">L'email est requis</span>
+        <span *ngIf="email?.errors?.['invalidEmail']">Format d'email invalide</span>
+      </div>
 
-        <input type="text" placeholder="email">
-        
-        <input type="password" placeholder="password">
+      <input
+        type="password"
+        placeholder="Mot de passe"
+        formControlName="password"
+        [class.error]="password?.invalid && password?.touched"
+        required
+      />
 
-        <button class="btn-login">login</button>
+      <div class="field-error" *ngIf="password?.invalid && password?.touched">
+        <span *ngIf="password?.errors?.['required']">Le mot de passe est requis</span>
+        <span *ngIf="password?.errors?.['minlength']">
+          Le mot de passe doit contenir au moins 6 caractères
+        </span>
+      </div>
 
-        <div class="cont-link">You don’t have an account ?</div>
+      <div class="error-message" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+
+      <button type="submit" class="btn-login" [disabled]="isLoading || loginForm.invalid">
+        {{ isLoading ? 'Connexion...' : 'Se connecter' }}
+      </button>
+    </form>
+
+    <div class="cont-link">
+      Vous n'avez pas de compte ?
+      <a routerLink="/register">S'inscrire</a>
     </div>
-
+  </div>
 </div>

@@ -12,10 +12,7 @@
     font-size: 48px;
     font-family: 'inter', sans-serif;
     font-weight: 700;
-    background: linear-gradient(to right, #f9555c, rgb(142 88 73));
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: #f9555c;
     margin: 0 0 12px 0;
   }
   
@@ -66,9 +63,10 @@
 }
 
 .products-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 40px 32px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2em;
   padding: 20px 0;
 }
 
