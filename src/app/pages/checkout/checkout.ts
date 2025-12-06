@@ -81,7 +81,7 @@ export class Checkout implements OnInit, OnDestroy {
       city: ['', [Validators.required, Validators.minLength(2)]],
       state: ['', [Validators.required, Validators.minLength(2)]],
       zipCode: ['', [Validators.required, Validators.pattern(/^\d{5}(-\d{4})?$/)]],
-      country: ['United States', Validators.required],
+      country: ['Tunisie', Validators.required],
       phone: ['', [Validators.required, Validators.pattern(/^[\d\s\-\+\(\)]+$/)]],
     });
 

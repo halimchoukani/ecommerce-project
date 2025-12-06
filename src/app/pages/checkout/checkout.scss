@@ -576,81 +576,159 @@
   }
 }
 
-// Responsive Design
-@media (max-width: 968px) {
+/* ============================= */
+/*   📱 RESPONSIVE – TABLET      */
+/* ============================= */
+@media (max-width: 992px) {
   .checkout-content {
     grid-template-columns: 1fr;
   }
 
   .order-summary {
     position: static;
-    order: -1;
+    margin-top: 2rem;
   }
 
   .steps-indicator {
-    .step-line {
-      width: 40px;
-    }
+    gap: 1rem;
+  }
 
-    .step-label {
-      font-size: 0.75rem;
-    }
+  .steps-indicator .step-line {
+    width: 50px;
   }
 }
 
-@media (max-width: 600px) {
+/* ============================= */
+/*   📱 RESPONSIVE – MOBILE      */
+/* ============================= */
+@media (max-width: 768px) {
   .checkout-container {
-    padding: 1rem;
+    padding: 1.5rem 1rem;
+  }
+
+  .checkout-header h1 {
+    font-size: 1.6rem;
+    white-space: normal;
+    text-align: center;
+  }
+
+  /* Steps Indicator */
+  .steps-indicator {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .steps-indicator .step {
+    flex-direction: row;
+    gap: 1rem;
+  }
+
+  .steps-indicator .step-line {
+    display: none;
+  }
+
+  /* Two-column → One-column */
+  .checkout-content {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
 
   .checkout-forms {
     padding: 1.5rem;
   }
 
-  .form-row {
-    grid-template-columns: 1fr;
+  /* Order Summary below form */
+  .order-summary {
+    width: 100%;
+    margin-top: 1.5rem;
+    position: static;
   }
 
-  .payment-methods {
-    flex-direction: column;
+  .summary-items .summary-item {
+    gap: 0.75rem;
+  }
+
+  .summary-items .item-image {
+    width: 50px;
+    height: 50px;
+  }
+
+  /* Form elements */
+  .form-row {
+    grid-template-columns: 1fr;
   }
 
   .form-actions {
     flex-direction: column;
   }
 
-  .steps-indicator {
-    .step-number {
-      width: 30px;
-      height: 30px;
-      font-size: 0.85rem;
-    }
-
-    .step-label {
-      display: none;
-    }
-
-    .step-line {
-      width: 30px;
-      margin: 0 0.5rem;
-    }
+  .form-actions button {
+    width: 100%;
   }
 
+  /* Payment methods responsive */
+  .payment-methods {
+    flex-direction: column;
+  }
+
+  /* Shipping options spacing */
+  .shipping-options .radio-option {
+    padding: 0.75rem;
+  }
+
+  /* Review section */
+  .review-section {
+    padding: 0.75rem;
+  }
+
+  .review-section .btn-edit {
+    padding: 0.3rem 0.8rem;
+  }
+
+  /* Confirmation page */
   .order-confirmation {
+    padding: 1.5rem;
+  }
+
+  .order-confirmation h1 {
+    font-size: 1.6rem;
+  }
+
+  .confirmation-actions {
+    flex-direction: column;
+  }
+
+  .confirmation-actions button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .checkout-header h1 {
+    font-size: 1.3rem;
+  }
+
+  .steps-indicator .step-number {
+    width: 32px;
+    height: 32px;
+    font-size: 0.9rem;
+  }
+
+  .steps-indicator .step-label {
+    font-size: 0.8rem;
+  }
+
+  .checkout-forms {
     padding: 1rem;
+  }
 
-    .confirmation-icon {
-      width: 80px;
-      height: 80px;
-      font-size: 3rem;
-    }
+  input {
+    max-width: 90%;
+    padding: 0.6rem !important;
+  }
 
-    .confirmation-actions {
-      flex-direction: column;
-
-      button {
-        width: 100%;
-      }
-    }
+  .summary-items .item-image {
+    width: 45px;
+    height: 45px;
   }
 }

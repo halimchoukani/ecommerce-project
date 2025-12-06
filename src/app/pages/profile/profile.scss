@@ -7,7 +7,7 @@
 
 // Header Section
 .profile-header {
-    background: linear-gradient(to right, #e87c82d4, #b97461e0);
+  background: linear-gradient(to right, #e87c82d4, #b97461e0);
   border-radius: 12px;
   padding: 2rem;
   margin-bottom: 2rem;
@@ -178,7 +178,7 @@
     transition: all 0.3s ease;
 
     &:hover {
-    background: linear-gradient(to right, #e87c82d4, #b97461e0);
+      background: linear-gradient(to right, #e87c82d4, #b97461e0);
       transform: translateY(-2px);
       box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
     }
@@ -703,7 +703,7 @@
   }
 
   .tabs {
-    overflow-x: auto;
+    overflow-x: hidden;
     gap: 0.5rem;
   }
 

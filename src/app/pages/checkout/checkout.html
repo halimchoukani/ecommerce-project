@@ -40,6 +40,7 @@
               type="text"
               id="fullName"
               formControlName="fullName"
+              placeholder="Foulen el fouleni"
               [class.error]="
                 shippingControls['fullName'].invalid && shippingControls['fullName'].touched
               "
@@ -96,6 +97,7 @@
               <input
                 type="text"
                 id="city"
+                placeholder="Rades"
                 formControlName="city"
                 [class.error]="shippingControls['city'].invalid && shippingControls['city'].touched"
               />
@@ -113,6 +115,7 @@
                 type="text"
                 id="state"
                 formControlName="state"
+                placeholder="Ben Arous"
                 [class.error]="
                   shippingControls['state'].invalid && shippingControls['state'].touched
                 "
@@ -170,7 +173,7 @@
               type="tel"
               id="phone"
               formControlName="phone"
-              placeholder="+33 1 23 45 67 89"
+              placeholder=" +216 96 031 279 "
               [class.error]="shippingControls['phone'].invalid && shippingControls['phone'].touched"
             />
             <div
@@ -202,7 +205,7 @@
                   <div class="radio-description">5-7 jours ouvrables</div>
                 </div>
                 <div class="radio-price">
-                  DT {{ shipping === 0 ? 'GRATUIT' : formatPrice(5.99) }}
+                  DT {{ shipping === 0 ? 'GRATUITE' : formatPrice(5.99) }}
                 </div>
               </label>
 
@@ -250,21 +253,11 @@
             <input
               type="radio"
               name="paymentMethod"
-              value="debit_card"
-              [checked]="paymentMethod === 'debit_card'"
-              (change)="onPaymentMethodChange('debit_card')"
-            />
-            <span>Carte de débit</span>
-          </label>
-          <label class="payment-method">
-            <input
-              type="radio"
-              name="paymentMethod"
               value="paypal"
               [checked]="paymentMethod === 'paypal'"
               (change)="onPaymentMethodChange('paypal')"
             />
-            <span>PayPal</span>
+            <span>Paiment a la livraison</span>
           </label>
         </div>
 
@@ -298,7 +291,7 @@
               type="text"
               id="cardNumber"
               formControlName="cardNumber"
-              placeholder="1234567890123456"
+              placeholder="1234 1234 1234 1234"
               maxlength="16"
               [class.error]="
                 paymentControls['cardNumber'].invalid && paymentControls['cardNumber'].touched
@@ -353,7 +346,7 @@
                 type="text"
                 id="cvv"
                 formControlName="cvv"
-                placeholder="123"
+                placeholder="1234"
                 maxlength="4"
                 [class.error]="paymentControls['cvv'].invalid && paymentControls['cvv'].touched"
               />
@@ -361,9 +354,7 @@
           </div>
         </form>
 
-        <div class="paypal-info" *ngIf="paymentMethod === 'paypal'">
-          <p>Vous serez redirigé vers PayPal pour finaliser votre paiement.</p>
-        </div>
+        <div class="paypal-info" *ngIf="paymentMethod === 'paypal'"></div>
 
         <div class="form-actions">
           <button type="button" class="btn-back" (click)="goToStep('shipping')">
@@ -398,9 +389,9 @@
         <div class="review-section">
           <h3>Mode de paiement</h3>
           <div class="review-content">
-            <p *ngIf="paymentMethod === 'credit_card'">Carte de crédit</p>
-            <p *ngIf="paymentMethod === 'debit_card'">Carte de débit</p>
-            <p *ngIf="paymentMethod === 'paypal'">PayPal</p>
+            <p *ngIf="paymentMethod === 'credit_card'">Carte Bancaire</p>
+            <p *ngIf="paymentMethod === 'debit_card'">E-Dinar</p>
+            <p *ngIf="paymentMethod === 'paypal'">D17</p>
             <p *ngIf="paymentMethod !== 'paypal'">
               Se terminant par {{ paymentForm.value.cardNumber?.slice(-4) || '****' }}
             </p>

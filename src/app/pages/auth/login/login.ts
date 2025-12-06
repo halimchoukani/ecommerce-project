@@ -34,10 +34,8 @@ export class Login implements OnInit {
   }
 
   onLogin(): void {
-    // Reset error message
     this.errorMessage = '';
 
-    // Mark all fields as touched to show validation errors
     if (this.loginForm.invalid) {
       Object.keys(this.loginForm.controls).forEach((key) => {
         this.loginForm.get(key)?.markAsTouched();

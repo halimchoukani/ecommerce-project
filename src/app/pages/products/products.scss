@@ -1,7 +1,8 @@
 .products-container {
   max-width: 90svw;
   margin: 0 auto;
-  padding: 2rem 1rem;
+  padding: 2rem;
+  padding-top: 0rem;
   min-height: calc(100vh - 200px);
 }
 
@@ -31,8 +32,12 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 // Error State
@@ -353,10 +358,10 @@
 // Products Grid
 .products-grid {
   display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    width: 100%;
-    gap: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  gap: 2rem;
   margin-bottom: 2rem;
 }
 
@@ -433,9 +438,11 @@
     }
 
     &.active {
-      background: linear-gradient(to right, #f9555c, rgb(142 88 73));
-      border-color: transparent;
-      color: white;
+      border-radius: 10px;
+      background: linear-gradient(white, white) padding-box,
+        linear-gradient(to right, #e87c81, #b97461e0, rgb(124 131 232)) border-box;
+      border: 2px solid transparent;
+      color: black;
     }
 
     &:disabled {
